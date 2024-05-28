@@ -386,7 +386,10 @@
     $(document).on('click', '.remove-field', function(e) {
         $(this).closest('.remove').remove();
         e.preventDefault();
-    });
+    });  
+
+
+    
 
     // bootstrap validation  
     // Example starter JavaScript for disabling form submissions if there are invalid fields
