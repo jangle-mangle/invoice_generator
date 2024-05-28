@@ -268,41 +268,48 @@
                         <h6 class="mb-0">Generate Invoice</h6>
                         <a href=""></a>
                     </div>
-                    <form action="{{ url('generate_invoice') }}">
+                    <form action="{{ url('generate_invoice') }}" class="needs-validation" novalidate>
                         <div class="row">
                             @csrf
                             <div class="col-3 my-2">
                                 <label for="">Customer Name</label>
-                                <input type="text" class="form-control" name="customer_name">
+                                <input type="text" class="form-control" name="customer_name"required>
                             </div>
-                            <div class="col-3 my-2">
+                            <div class="col-2 my-2">
                                 <label for="">GST No</label>
-                                <input type="text" class="form-control" name="gst_no">
+                                <input type="text" class="form-control" name="gst_no"required>
                             </div>
-                            <div class="col-3 my-2">
+                            <div class="col-2 my-2">
                                 <label for="">Mobile NO</label>
-                                <input type="text" class="form-control" name="phone_no">
+                                <input type="text" class="form-control" name="phone_no"required>
                             </div>
                             <div class="col-3 my-2">
                                 <label for="">Address</label>
-                                <input type="text" class="form-control" name="address">
+                                <input type="text" class="form-control" name="address"required>
+                            </div>
+                            <div class="col-2 my-2">
+                                <label for="">Invoice Date</label>
+                                <input type="date" class="form-control" name="invoice_date"required>
                             </div>
                         </div>
                         <div class="bricks_records">
                             <div class="row">
                                 <div class="col-3 my-2">
                                     <label for="">Bricks</label>
-                                    <select class="form-select" name="bricks[]" id="">
+                                    <select class="form-select" name="bricks[]" id="" required>
                                         <option selected disabled>---Select Bricks----</option>
+                                        <option value='8"8X4X4 FLYASH BRICKS'>8"8X4X4 FLYASH BRICKS</option>
+                                        <option value='9"9X4X3 FLYASH BRICKS'>9"9X4X3 FLYASH BRICKS</option>
+                                        <option value='16"16X8X6 FLYASH BRICKS'>16"16X8X6 FLYASH BRICKS</option>
                                     </select>
                                 </div>
                                 <div class="col-3 my-2">
                                     <label for="">Quantity</label>
-                                    <input type="text" class="form-control" name="Qty">
+                                    <input type="text" class="form-control" name="qty[]" required>
                                 </div>
                                 <div class="col-3 my-2">
                                     <label for="">Rate</label>
-                                    <input type="text" class="form-control" name="rate">
+                                    <input type="text" class="form-control" name="rate[]" required>
                                 </div>
                                 <div class="col-3 my-2 extra-fields-bricks-parent">
                                     <button type="button" class="btn btn-success my-4 px-4 extra-fields-bricks">Add +
@@ -313,6 +320,7 @@
                         </div>
                         <div class=" bricks_records_dynamic"></div>
 
+                        <button class="text-center text-capitalize btn btn-primary px-5"> sumbit </button>
                     </form>
                 </div>
             </div>
@@ -367,22 +375,39 @@
         $('.bricks_records').clone().appendTo('.bricks_records_dynamic');
         $('.bricks_records_dynamic .bricks_records').addClass('single remove');
         $('.single .extra-fields-bricks').remove();
-        $('.single .extra-fields-bricks-parent').append('<button type="button" class="btn btn-danger px-4 remove-field btn-remove-bricks my-4">Remove - </button>');
+        $('.single .extra-fields-bricks-parent').append(
+            '<button type="button" class="btn btn-danger px-4 remove-field btn-remove-bricks my-4">Remove - </button>'
+            );
         $('.bricks_records_dynamic > .single').attr("class", "remove");
 
-        $('.bricks_records_dynamic input').each(function() {
-            var count = 0;
-            var fieldname = $(this).attr("name");
-            $(this).attr('name', fieldname + count);
-            count++;
-        });
 
     });
 
-    $('.remove-field').on('click', function(e) {
-        $(this).closest('div.row').parent('.remove').remove();
+    $(document).on('click', '.remove-field', function(e) {
+        $(this).closest('.remove').remove();
         e.preventDefault();
     });
+
+    // bootstrap validation  
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
 </script>
 
 </html>
